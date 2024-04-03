@@ -46,7 +46,7 @@ summary(autoencoder, (1, length))
 
 # test the model with 5 epochs
 # Define a loss function
-criterion = nn.CrossEntropyLoss()  # Example for classification, change as needed
+criterion = nn.MSELoss()  # Mean Squared Error
 
 # Choose an optimizer
 optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.001)
