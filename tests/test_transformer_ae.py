@@ -24,30 +24,33 @@ data = data[10:-10, :, :] # get rid of the first 10 and last 10 wavelength pixel
 # could also mask nan with data = np.nan_to_num(data) if needed
 sky_spec = apply_mask(data, mask, extract_value=0)
 sky_spec = replace_outliers(sky_spec, lower=3, upper=10, fill_value_lower='median', fill_value_upper='median')
-sky_spec = sky_spec - np.min(sky_spec) + 10
-sky_spec = rescale_data(sky_spec, log=True, new_min=0, new_max=1)
+dc_offset = - np.min(sky_spec) + 10
+sky_spec = sky_spec + dc_offset
+sky_spec, min_val, max_val = rescale_data(sky_spec, log=True, new_min=0, new_max=1, output_minmax=True)
+np.savetxt('/Users/mandychen/sky_subtraction/PKS0405-123_OB1/EXP1_dataprocessing_pars.txt', 
+            [min_val, max_val, dc_offset], delimiter=' ', comments='# min_val, max_val, dc_offset')
 
 # # Convert the input array to a tensor
-input_tensor = array_to_tensor(sky_spec[:,:2])
+input_tensor = array_to_tensor(sky_spec)
 # print(input_tensor.size())
 
-t0 = time.time()
-# Create an instance of the Autoencoder model
-enc_in_channels, enc_out_channels = 1, 32
-enc_kernel_size, enc_stride, enc_padding = 8, 1, 'same'
-dec_in_channels, dec_out_channels = enc_out_channels, enc_out_channels
-dec_kernel_size, dec_stride, dec_padding = 6, 2, 0
-autoencoder = AutoEncoderConv(enc_in_channels, enc_out_channels, enc_kernel_size, enc_stride, enc_padding, 
-                 dec_in_channels, dec_out_channels, dec_kernel_size, dec_stride, dec_padding)
+# t0 = time.time()
+# # Create an instance of the Autoencoder model
+# enc_in_channels, enc_out_channels = 1, 32
+# enc_kernel_size, enc_stride, enc_padding = 8, 1, 'same'
+# dec_in_channels, dec_out_channels = enc_out_channels, enc_out_channels
+# dec_kernel_size, dec_stride, dec_padding = 6, 2, 0
+# autoencoder = AutoEncoderConv(enc_in_channels, enc_out_channels, enc_kernel_size, enc_stride, enc_padding, 
+#                  dec_in_channels, dec_out_channels, dec_kernel_size, dec_stride, dec_padding)
 
-# summary(autoencoder, (1, length))
+# # summary(autoencoder, (1, length))
 
-# # Pass the input tensor through the autoencoder
-output_tensor = autoencoder(input_tensor)
-print('time takes', time.time() - t0)
-# Print the output tensor
-print(output_tensor)
-print(output_tensor.size())
+# # # Pass the input tensor through the autoencoder
+# output_tensor = autoencoder(input_tensor)
+# print('time takes', time.time() - t0)
+# # Print the output tensor
+# print(output_tensor)
+# print(output_tensor.size())
 
 
 # # test the model with 5 epochs

@@ -9,7 +9,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from src.data_processing import normalize_array_to_tensor, CustomDataset 
-from src.model import AutoEncoderConv
+from src.model import ConvAutoencoder
 from src.train import train_model
 from torchsummary import summary
 import time
@@ -31,7 +31,7 @@ print(input_tensor.size())
 # enc_kernel_size, enc_stride, enc_padding = 8, 1, 'same'
 # dec_in_channels, dec_out_channels = enc_out_channels, enc_out_channels
 # dec_kernel_size, dec_stride, dec_padding = 6, 2, 0
-# autoencoder = AutoEncoderConv(enc_in_channels, enc_out_channels, enc_kernel_size, enc_stride, enc_padding, 
+# autoencoder = ConvAutoencoder(enc_in_channels, enc_out_channels, enc_kernel_size, enc_stride, enc_padding, 
 #                  dec_in_channels, dec_out_channels, dec_kernel_size, dec_stride, dec_padding)
 
 # summary(autoencoder, (1, length))

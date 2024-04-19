@@ -57,7 +57,7 @@ def replace_outliers(data, lower=3, upper=10, fill_value_lower='median',
     return data
 
 
-def rescale_data(input_data, log=True, new_min=0, new_max=1):
+def rescale_data(input_data, log=True, new_min=0, new_max=1, output_minmax=True):
     """
     Rescales the data to a new range.
     Args:
@@ -65,6 +65,7 @@ def rescale_data(input_data, log=True, new_min=0, new_max=1):
     - log (bool): Whether to take the logarithm of the data.
     - new_min (float): New minimum value.
     - new_max (float): New maximum value.
+    - output_minmax (bool): Whether to output the min and max values of the input data.
     """
 
     # Take the logarithm of the data
@@ -78,8 +79,11 @@ def rescale_data(input_data, log=True, new_min=0, new_max=1):
     
     # Rescale to the desired range
     rescaled_data = scaled_data * (new_max - new_min) + new_min
-    
-    return rescaled_data
+
+    if output_minmax:
+        return rescaled_data, np.min(data), np.max(data)    
+    else:
+        return rescaled_data
 
 
 def normalize_data(input_data, output_shape='original', mode='global'):
@@ -177,3 +181,6 @@ class CustomDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         x = self.input_data[idx]
         return x
+
+
+
