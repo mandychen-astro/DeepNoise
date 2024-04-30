@@ -11,7 +11,8 @@ from torch.utils.data import DataLoader
 from src.data_processing import array_to_tensor, CustomDataset, replace_outliers, apply_mask, rescale_data
 from src.model import SpectrumTransformer
 from src.train import train_model
-from torchsummary import summary
+# from torchsummary import summary
+from torchinfo import summary
 import time
 
 # Load the data
@@ -40,11 +41,10 @@ print(input_tensor.size())
 t0 = time.time()
 # Create an instance of the Autoencoder model
 num_specpixels, embedding_dim = input_tensor.size(2), 128
-output_dim = num_specpixels
-print(num_specpixels, embedding_dim, output_dim)
-autoencoder = SpectrumTransformer(num_specpixels, embedding_dim, output_dim)
+print(num_specpixels, embedding_dim)
+autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 
-summary(autoencoder, (10, num_specpixels))
+# summary(autoencoder, (1, 1, num_specpixels))
 
 # # Pass the input tensor through the autoencoder
 output_tensor = autoencoder(input_tensor)
