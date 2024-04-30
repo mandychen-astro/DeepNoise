@@ -67,16 +67,21 @@ class SpectrumTransformerEncoder(nn.Module):
     def __init__(self, num_specpixles, embedding_dim):
         super(SpectrumTransformerEncoder, self).__init__()
         self.spec_embedding = nn.Linear(num_specpixles, embedding_dim)  
+        self.dropout1 = nn.Dropout(0.2)
         self.positional_encodings = nn.Parameter(torch.zeros(1, 1, embedding_dim))
+        self.dropout2 = nn.Dropout(0.2)
         self.transformer_encoder = nn.TransformerEncoder(
-            nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=4),
+            nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=4, dim_feedforward=1024,
+            dropout=0.2),
             num_layers=4
         )
 
     def forward(self, x):
         # x is [batch_size, 1, num_specpixels] 
         x = self.spec_embedding(x)  # Convert each spectrum to an embedding
+        x = self.dropout1(x)
         x += self.positional_encodings  # Add positional encodings
+        x = self.dropout2(x)
         x = self.transformer_encoder(x)  # Pass through the transformer encoder
         return x
 
@@ -85,11 +90,14 @@ class SpectrumTransformerDecoder(nn.Module):
         super(SpectrumTransformerDecoder, self).__init__()
         # Assuming the same embedding dimension for simplicity and symmetry
         self.decoder_embedding = nn.Linear(num_specpixels, embedding_dim)
+        self.dropout1 = nn.Dropout(0.2)
         self.positional_encodings = nn.Parameter(torch.zeros(1, 1, embedding_dim))
+        self.dropout2 = nn.Dropout(0.2)
         
         # Decoder Layers: Same configuration as the encoder but using TransformerDecoderLayer
         self.transformer_decoder = nn.TransformerDecoder(
-            nn.TransformerDecoderLayer(d_model=embedding_dim, nhead=4),
+            nn.TransformerDecoderLayer(d_model=embedding_dim, nhead=4, dim_feedforward=1024,
+            dropout=0.2),
             num_layers=4
         )
 
@@ -99,7 +107,9 @@ class SpectrumTransformerDecoder(nn.Module):
     def forward(self, x, encoded_output):
         # Embed and add positional encodings to the target patches
         target = self.decoder_embedding(x)
+        target = self.dropout1(target)
         target += self.positional_encodings
+        target = self.dropout2(target)
         
         # Decoding the patches with attention to the memory from the encoder
         y = self.transformer_decoder(target, encoded_output)

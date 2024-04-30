@@ -44,14 +44,14 @@ num_specpixels, embedding_dim = input_tensor.size(2), 128
 print(num_specpixels, embedding_dim)
 autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 
-# summary(autoencoder, (1, 1, num_specpixels))
+summary(autoencoder, (1, 1, num_specpixels))
 
-# # Pass the input tensor through the autoencoder
-output_tensor = autoencoder(input_tensor)
-print('time takes', time.time() - t0)
-# Print the output tensor
-print(output_tensor)
-print(output_tensor.size())
+# # # Pass the input tensor through the autoencoder
+# output_tensor = autoencoder(input_tensor)
+# print('time takes', time.time() - t0)
+# # Print the output tensor
+# print(output_tensor)
+# print(output_tensor.size())
 
 
 # # test the model with 5 epochs
