@@ -56,6 +56,39 @@ def replace_outliers(data, lower=3, upper=10, fill_value_lower='median',
 
     return data
 
+def rescale_data_w_prior_bounds(input_data, log=True, new_min=0, new_max=1, 
+                                input_min=None, input_max=None):
+    """
+    Rescales the data to a new range.
+    Args:
+    - input_data (numpy.ndarray): Input data array. 
+    - log (bool): Whether to take the logarithm of the data.
+    - new_min (float): New minimum value.
+    - new_max (float): New maximum value.
+    - input_min (float): Minimum value of the input data.
+    - input_max (float): Maximum value of the input data.
+    
+    Returns:
+    - numpy.ndarray: Rescaled data.
+    """
+    # Take the logarithm of the data
+    if log:
+        data = np.log10(input_data)
+    else:
+        data = input_data
+    
+    # Perform min-max scaling
+    if input_min is None:
+        input_min = np.min(data)
+    if input_max is None:
+        input_max = np.max(data)
+    scaled_data = (data - input_min) / (input_max - input_min)
+    
+    # Rescale to the desired range
+    rescaled_data = scaled_data * (new_max - new_min) + new_min
+
+    return rescaled_data
+
 
 def rescale_data(input_data, log=True, new_min=0, new_max=1, output_minmax=True):
     """
@@ -161,6 +194,8 @@ def array_to_tensor(input_data):
     Returns:
     - torch.Tensor: PyTorch tensor.
     """
+    if len(input_data.shape) == 1:
+        input_data = input_data.reshape(-1, 1) # reshape to [length_seq, 1]
     length_seq, N = input_data.shape[0], input_data.shape[1]
     input_data = input_data.transpose(1, 0).reshape(-1, 1, length_seq)
     tensor_data = torch.tensor(input_data, dtype=torch.float)
