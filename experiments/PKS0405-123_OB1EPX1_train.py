@@ -13,7 +13,7 @@ import time
 input_tensor = torch.load('../data/processed/PKS0405-123_OB1EXP1_input_tensor.pt')
 print(input_tensor.size())
 
-num_specpixels, embedding_dim = input_tensor.size(2), 128
+num_specpixels, embedding_dim = input_tensor.size(2), 64
 print(num_specpixels, embedding_dim)
 autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 
