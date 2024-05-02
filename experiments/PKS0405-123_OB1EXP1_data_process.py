@@ -1,11 +1,13 @@
 import sys
-sys.path.append('/Users/mandychen/DeepNoise/')
+import os
+
+home_directory = os.path.expanduser('~')
+sys.path.append(home_directory + '/DeepNoise/')
 
 from astropy.io import fits
 from mpdaf.obj import Cube
 import numpy as np
 import torch
-import h5py
 
 from src.data_processing import array_to_tensor, replace_outliers, apply_mask, rescale_data
 

@@ -1,5 +1,8 @@
 import sys
-sys.path.append('/Users/mandychen/DeepNoise/')
+import os
+
+home_directory = os.path.expanduser('~')
+sys.path.append(home_directory + '/DeepNoise/')
 
 import torch
 from torch import nn
