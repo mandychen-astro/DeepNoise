@@ -13,7 +13,7 @@ from torchinfo import summary
 import time
 
 # Load the data
-input_tensor = torch.load('../data/processed/PKS0405-123_OB1EXP1_input_tensor.pt')
+input_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor.pt')
 print(input_tensor.size())
 
 num_specpixels, embedding_dim = input_tensor.size(2), 64
