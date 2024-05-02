@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=PKS0405-123_OB1EXP1
-#SBATCH --output=./sbatch_output/PKS0405-123_OB1EXP1.out
-#SBATCH --error=./sbatch_output/PKS0405-123_OB1EXP1.err
+#SBATCH --output=./PKS0405-123_OB1EXP1.out
+#SBATCH --error=./PKS0405-123_OB1EXP1.err
 #SBATCH --time=05:30:00
 #SBATCH --partition=broadwl
 #SBATCH --account=pi-hwchen

@@ -1,6 +1,7 @@
 # Ignore data files
 data/*
-experiments/sbatch_output/*
+experiments/*.out
+experiments/*.err
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
