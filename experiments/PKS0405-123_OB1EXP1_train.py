@@ -9,6 +9,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 from src.model import SpectrumTransformer
 from src.train import train_model
+from src.data_processing import CustomDataset
 from torchinfo import summary
 import time
 
