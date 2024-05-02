@@ -29,6 +29,10 @@ np.savetxt('./PKS0405-123_OB1EXP1_dataprocessing_pars.txt',
             [min_val, max_val, dc_offset], delimiter=' ', comments='# min_val, max_val, dc_offset')
 
 # Convert the input array to a tensor
-input_tensor = array_to_tensor(sky_spec)
-print(input_tensor.size())
-torch.save(input_tensor, '../data/processed/PKS0405-123_OB1EXP1_input_tensor.pt')
+sky_spec_train = sky_spec[:, :-14311] # leave 20% of the data for testing
+sky_spec_test = sky_spec[:, -14311:]
+input_tensor_train = array_to_tensor(sky_spec_train)
+input_tensor_test = array_to_tensor(sky_spec_test)
+print(input_tensor_train.size())
+torch.save(input_tensor_train, '../data/PKS0405-123_OB1EXP1_input_tensor_train.pt')
+torch.save(input_tensor_test, '../data/PKS0405-123_OB1EXP1_input_tensor_test.pt')

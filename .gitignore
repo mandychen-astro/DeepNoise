@@ -1,6 +1,6 @@
 # Ignore data files
 data/*
-experiments/sbatch_code/*
+# experiments/sbatch_code/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -14,7 +14,7 @@ from torchinfo import summary
 import time
 
 # Load the data
-input_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor.pt')
+input_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor_train.pt')
 print(input_tensor.size())
 
 num_specpixels, embedding_dim = input_tensor.size(2), 64
@@ -36,6 +36,6 @@ train_loader = DataLoader(dataset, batch_size=64, shuffle=True)
 
 # Train the model
 trained_model = train_model(autoencoder, train_loader, criterion, optimizer, 
-                num_epochs=5, device='cpu')
+                num_epochs=50, device='cpu')
 
 torch.save(autoencoder.state_dict(), '../models/model_PKS0405-123_OB1EXP1_state_dict.pth')
