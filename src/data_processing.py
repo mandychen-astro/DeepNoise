@@ -78,10 +78,6 @@ def rescale_data_w_prior_bounds(input_data, log=True, new_min=0, new_max=1,
         data = input_data
     
     # Perform min-max scaling
-    if input_min is None:
-        input_min = np.min(data)
-    if input_max is None:
-        input_max = np.max(data)
     scaled_data = (data - input_min) / (input_max - input_min)
     
     # Rescale to the desired range
@@ -102,6 +98,7 @@ def rescale_data(input_data, log=True, new_min=0, new_max=1, output_minmax=True)
     """
 
     # Take the logarithm of the data
+    
     if log:
         data = np.log10(input_data)
     else:
