@@ -11,6 +11,8 @@ from src.model import SpectrumTransformer
 from src.train import train_model
 from src.data_processing import CustomDataset
 from torchinfo import summary
+
+import numpy as np
 import time
 
 # Load the data
@@ -45,3 +47,5 @@ trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loade
                 num_epochs=20, device='cpu')
 
 torch.save(autoencoder.state_dict(), '../models/model_PKS0405-123_OB1EXP1_state_dict.pth')
+np.savetxt('../models/model_PKS0405-123_OB1EXP1_train_loss.txt', train_loss)
+np.savetxt('../models/model_PKS0405-123_OB1EXP1_val_loss.txt', val_loss)
