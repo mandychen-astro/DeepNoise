@@ -21,7 +21,7 @@ val_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor_val.pt')
 print(train_tensor.size())
 print(val_tensor.size())
 
-num_specpixels, embedding_dim = input_tensor.size(2), 64
+num_specpixels, embedding_dim = train_tensor.size(2), 64
 print(num_specpixels, embedding_dim)
 autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 
