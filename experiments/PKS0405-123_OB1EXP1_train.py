@@ -14,8 +14,10 @@ from torchinfo import summary
 import time
 
 # Load the data
-input_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor_train.pt')
-print(input_tensor.size())
+train_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor_train.pt')
+val_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor_val.pt')
+print(train_tensor.size())
+print(val_tensor.size())
 
 num_specpixels, embedding_dim = input_tensor.size(2), 64
 print(num_specpixels, embedding_dim)
@@ -31,11 +33,15 @@ criterion = nn.MSELoss()  # Mean Squared Error
 optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.001)
 
 # Load your data
-dataset = CustomDataset(input_tensor)
-train_loader = DataLoader(dataset, batch_size=64, shuffle=True)
+train_data = CustomDataset(train_tensor)
+val_data = CustomDataset(val_tensor)
+train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
+val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 
 # Train the model
-trained_model = train_model(autoencoder, train_loader, criterion, optimizer, 
-                num_epochs=50, device='cpu')
+trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loader=train_loader, 
+                criterion=criterion, optimizer=optimizer, val_loader=val_loader,
+                return_train_loss=True, return_val_loss=True,
+                num_epochs=20, device='cpu')
 
 torch.save(autoencoder.state_dict(), '../models/model_PKS0405-123_OB1EXP1_state_dict.pth')
