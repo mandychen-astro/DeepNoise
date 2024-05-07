@@ -131,7 +131,7 @@ class SpectrumTransformer(nn.Module):
 
 class InputWeightedMSELoss(nn.Module):
     def __init__(self):
-        super(WeightedMSELoss, self).__init__()
+        super(InputWeightedMSELoss, self).__init__()
 
     def forward(self, input, target):
         """

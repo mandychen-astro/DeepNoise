@@ -10,10 +10,13 @@ from torch.utils.data import DataLoader
 from src.model import SpectrumTransformer, InputWeightedMSELoss
 from src.train import train_model
 from src.data_processing import CustomDataset
-from torchinfo import summary
+# from torchinfo import summary
 
 import numpy as np
 import time
+
+# print(torch.cuda.device_count())
+# print(torch.cuda.get_device_name())
 
 # Load the data
 train_tensor = torch.load('../data/PKS0405-123_OB1EXP1_input_tensor_train.pt')
@@ -25,7 +28,7 @@ num_specpixels, embedding_dim = train_tensor.size(2), 64
 print(num_specpixels, embedding_dim)
 autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 
-summary(autoencoder, (1, 1, num_specpixels))
+# summary(autoencoder, (1, 1, num_specpixels))
 
 # test the model with 5 epochs
 # Define a loss function
