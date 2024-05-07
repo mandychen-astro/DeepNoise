@@ -160,5 +160,5 @@ class InputWeightedMSELoss(nn.Module):
         weighted_squared_diff = weight * squared_diff
         
         # Return the mean of the weighted squared differences
-        loss = weighted_squared_diff.mean()
+        loss = weighted_squared_diff.sum()
         return loss
