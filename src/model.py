@@ -127,3 +127,38 @@ class SpectrumTransformer(nn.Module):
         encoded_output = self.encoder(x)
         decoded_output = self.decoder(x, encoded_output)
         return decoded_output
+
+
+class InputWeightedMSELoss(nn.Module):
+    def __init__(self):
+        super(WeightedMSELoss, self).__init__()
+
+    def forward(self, input, target):
+        """
+        Calculate the weighted mean squared error loss.
+
+        Args:
+            input (torch.Tensor): Predictions from the model.
+            target (torch.Tensor): Ground truth values.
+
+        Returns:
+            torch.Tensor: The computed weighted MSE loss.
+        """
+        # Compute weights: square of input values, normalized
+        squared_inputs = input ** 2
+        weight = squared_inputs / squared_inputs.sum()
+
+        # Ensure the weights are the same shape as the input and target
+        if weight.shape != input.shape:
+            raise ValueError("Weight shape must match input shape")
+
+        # Calculate the squared differences
+        diff = input - target
+        squared_diff = diff ** 2
+        
+        # Apply weights
+        weighted_squared_diff = weight * squared_diff
+        
+        # Return the mean of the weighted squared differences
+        loss = weighted_squared_diff.mean()
+        return loss

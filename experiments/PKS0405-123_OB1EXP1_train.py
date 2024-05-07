@@ -7,7 +7,7 @@ sys.path.append(home_directory + '/DeepNoise/')
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
-from src.model import SpectrumTransformer
+from src.model import SpectrumTransformer, InputWeightedMSELoss
 from src.train import train_model
 from src.data_processing import CustomDataset
 from torchinfo import summary
@@ -29,10 +29,10 @@ summary(autoencoder, (1, 1, num_specpixels))
 
 # test the model with 5 epochs
 # Define a loss function
-criterion = nn.MSELoss()  # Mean Squared Error
+criterion = InputWeightedMSELoss()  
 
 # Choose an optimizer
-optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.001, weight_decay=1e-3)
 
 # Load your data
 train_data = CustomDataset(train_tensor)
@@ -44,7 +44,7 @@ val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loader=train_loader, 
                 criterion=criterion, optimizer=optimizer, val_loader=val_loader,
                 return_train_loss=True, return_val_loss=True,
-                num_epochs=20, device='cpu')
+                num_epochs=8, device='cpu')
 
 torch.save(autoencoder.state_dict(), '../models/model_PKS0405-123_OB1EXP1_state_dict.pth')
 np.savetxt('../models/model_PKS0405-123_OB1EXP1_train_loss.txt', train_loss)
