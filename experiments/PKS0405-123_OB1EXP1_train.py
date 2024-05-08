@@ -35,7 +35,7 @@ autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 criterion = InputWeightedMSELoss()  
 
 # Choose an optimizer
-optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.001, weight_decay=1e-3)
+optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.001)#, weight_decay=1e-3)
 
 # Load your data
 train_data = CustomDataset(train_tensor)
