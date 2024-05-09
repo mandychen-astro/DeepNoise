@@ -7,7 +7,7 @@
 #SBATCH --nodes=1        
 #SBATCH --partition=kicp-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --account=kicpaa
+#SBATCH --account=kicp
 #SBATCH --ntasks=1
 #SBATCH --mem=10G
 
@@ -16,4 +16,5 @@
 module load python/anaconda-2021.05
 module load cuda/11.2
 module load cudnn/11.2
+nvidia-smi
 python PKS0405-123_OB1EXP1_train.py
