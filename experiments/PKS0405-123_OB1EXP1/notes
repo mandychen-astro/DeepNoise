@@ -1,0 +1,23 @@
+Dataset:
+    - PKS0405-123_OB1EXP1
+    - Pre-processing:
+        - A 3-sig cut at a given wavelength slice below zero: if val<0-3*np.nanstd(slice), val = np.nanmedian(slice)
+        - Removed all spaxels with any number of missing values in spectrum
+        - Got rid of first and last 10 spectral pixels
+        - Rescaled data: rescaled_data = minmax_scale(log10(data - min(data) + 10), min=0, max=1)
+        - Rescaling is applied to all spectra with the same min and max values, saved in "PKS0405-123_OB1EXP1_dataprocessing_pars.txt"
+
+Model:
+    - Transformer autoencoder, see screenshot "model.png"
+
+Loss:
+    - MSE
+    - Experimented with weighted MSE + L2 (lambda=1e-3), but it made the results worse
+
+Training:
+    - 20 epochs
+    - batch size 64
+    - Adam optimizer with lr=0.001
+
+Results:
+    - Works ok, but residual still worse than MUSE pipeline result
