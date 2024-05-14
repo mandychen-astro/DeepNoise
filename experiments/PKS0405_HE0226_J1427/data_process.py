@@ -25,51 +25,58 @@ def get_train_and_val(mask, cube, train_split=0.8):
                         fill_value_lower='median', fill_value_upper='median')
 
     # Generate random indices for splitting the data
-    num_samples = sky_spec.shape[0]
+    num_samples = sky_spec.shape[1]
+    print(num_samples, np.sum(mask==0))
     train_indices = np.random.choice(num_samples, int(train_split * num_samples), replace=False)
     test_indices = np.setdiff1d(np.arange(num_samples), train_indices)
 
     # Split the data into training and validation sets
-    sky_spec_train = sky_spec[train_indices]
-    sky_spec_test = sky_spec[test_indices]
+    sky_spec_train = sky_spec[:, train_indices]
+    sky_spec_test = sky_spec[:, test_indices]
 
-    sky_spec_train_sigclipped = sky_spec_sigclipped[train_indices]
-    sky_spec_test_sigclipped = sky_spec_sigclipped[test_indices]
+    sky_spec_train_sigclipped = sky_spec_sigclipped[:, train_indices]
+    sky_spec_test_sigclipped = sky_spec_sigclipped[:, test_indices]
     
     return sky_spec_train, sky_spec_test, sky_spec_train_sigclipped, sky_spec_test_sigclipped
 
 mask = fits.getdata(home_directory + '/sky_subtraction/PKS0405-123_OB1/skymask_badpixel_removed_OB1EXP1.fits')
 cube = Cube(home_directory + '/sky_subtraction/PKS0405-123_OB1/DATACUBE_FINAL_EXP1.fits')
 t1, v1, tc1, vc1 = get_train_and_val(mask, cube)
+print('t1:', t1.shape)
 
 mask = fits.getdata(home_directory + '/sky_subtraction/PKS0405-123_OB1/skymask_badpixel_removed_OB1EXP2.fits')
 cube = Cube(home_directory + '/sky_subtraction/PKS0405-123_OB1/DATACUBE_FINAL_EXP2.fits')
 t2, v2, tc2, vc2 = get_train_and_val(mask, cube)
+print('t2:', t2.shape)
 
 mask = fits.getdata(home_directory + '/sky_subtraction/HE0226-4110_OB1/skymask_badpixel_removed_OB1EXP1.fits')
 cube = Cube(home_directory + '/sky_subtraction/HE0226-4110_OB1/DATACUBE_FINAL_EXP1.fits')
 t3, v3, tc3, vc3 = get_train_and_val(mask, cube)
+print('t3:', t3.shape)
 
 mask = fits.getdata(home_directory + '/sky_subtraction/SDSSJ1427-0121_OB1/skymask_badpixel_removed_OB1EXP1.fits')
 cube = Cube(home_directory + '/sky_subtraction/SDSSJ1427-0121_OB1/DATACUBE_FINAL_EXP1.fits')
 t4, v4, tc4, vc4 = get_train_and_val(mask, cube)
+print('t4:', t4.shape)
 
 # Combine the training and validation data
 sky_spec_train = np.concatenate((t1, t2, t3, t4), axis=1)
 sky_spec_val = np.concatenate((v1, v2, v3, v4), axis=1)
+print(sky_spec_train.shape)
+print(sky_spec_val.shape)
 
 sky_spec_train_sigclipped = np.concatenate((tc1, tc2, tc3, tc4), axis=1)
 sky_spec_val_sigclipped = np.concatenate((vc1, vc2, vc3, vc4), axis=1)
 
-num_samples = sky_spec_train.shape[0]
+num_samples = sky_spec_train.shape[1]
 test_indices = np.random.choice(num_samples, 100, replace=False)# choose 100 for testing here
-train_test = sky_spec_train[test_indices]
-train_test_clipped = sky_spec_train_sigclipped[test_indices]
+train_test = sky_spec_train[:, test_indices]
+train_test_clipped = sky_spec_train_sigclipped[:, test_indices]
 
-num_samples = sky_spec_val.shape[0]
+num_samples = sky_spec_val.shape[1]
 test_indices = np.random.choice(num_samples, 100, replace=False)# choose 100 for testing here
-val_test = sky_spec_val[test_indices]
-val_test_clipped = sky_spec_val_sigclipped[test_indices]
+val_test = sky_spec_val[:, test_indices]
+val_test_clipped = sky_spec_val_sigclipped[:, test_indices]
 
 # Convert the input array to a tensor
 input_tensor_train = array_to_tensor(sky_spec_train)
