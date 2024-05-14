@@ -35,20 +35,20 @@ def get_train_and_val(mask, cube, train_split=0.8):
     
     return sky_spec_train, sky_spec_test
 
-mask = fits.getdata('/Users/mandychen/sky_subtraction/PKS0405-123_OB1/skymask_badpixel_removed_OB1EXP1.fits')
-cube = Cube('/Users/mandychen/sky_subtraction/PKS0405-123_OB1/DATACUBE_FINAL_EXP1.fits')
+mask = fits.getdata(home_directory + '/sky_subtraction/PKS0405-123_OB1/skymask_badpixel_removed_OB1EXP1.fits')
+cube = Cube(home_directory + '/sky_subtraction/PKS0405-123_OB1/DATACUBE_FINAL_EXP1.fits')
 t1, v1 = get_train_and_val(mask, cube)
 
-mask = fits.getdata('/Users/mandychen/sky_subtraction/PKS0405-123_OB1/skymask_badpixel_removed_OB1EXP2.fits')
-cube = Cube('/Users/mandychen/sky_subtraction/PKS0405-123_OB1/DATACUBE_FINAL_EXP2.fits')
+mask = fits.getdata(home_directory + '/sky_subtraction/PKS0405-123_OB1/skymask_badpixel_removed_OB1EXP2.fits')
+cube = Cube(home_directory + '/sky_subtraction/PKS0405-123_OB1/DATACUBE_FINAL_EXP2.fits')
 t2, v2 = get_train_and_val(mask, cube)
 
-mask = fits.getdata('/Users/mandychen/sky_subtraction/HE0226-4110_OB1/skymask_badpixel_removed_OB1EXP1.fits')
-cube = Cube('/Users/mandychen/sky_subtraction/HE0226-4110_OB1/DATACUBE_FINAL_EXP1.fits')
+mask = fits.getdata(home_directory + '/sky_subtraction/HE0226-4110_OB1/skymask_badpixel_removed_OB1EXP1.fits')
+cube = Cube(home_directory + '/sky_subtraction/HE0226-4110_OB1/DATACUBE_FINAL_EXP1.fits')
 t3, v3 = get_train_and_val(mask, cube)
 
-mask = fits.getdata('/Users/mandychen/sky_subtraction/SDSSJ1427-0121_OB1/skymask_badpixel_removed_OB1EXP1.fits')
-cube = Cube('/Users/mandychen/sky_subtraction/SDSSJ1427-0121_OB1/DATACUBE_FINAL_EXP1.fits')
+mask = fits.getdata(home_directory + '/sky_subtraction/SDSSJ1427-0121_OB1/skymask_badpixel_removed_OB1EXP1.fits')
+cube = Cube(home_directory + '/sky_subtraction/SDSSJ1427-0121_OB1/DATACUBE_FINAL_EXP1.fits')
 t4, v4 = get_train_and_val(mask, cube)
 
 # Combine the training and validation data
