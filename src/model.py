@@ -145,20 +145,20 @@ class InputWeightedMSELoss(nn.Module):
             torch.Tensor: The computed weighted MSE loss.
         """
         # Compute weights: square of input values, normalized
-        squared_inputs = input ** 2
-        weight = squared_inputs / squared_inputs.sum()
+        squared_inputs = torch.square(input)
+        weight = torch.div(squared_inputs, torch.sum(squared_inputs))
 
         # Ensure the weights are the same shape as the input and target
         if weight.shape != input.shape:
             raise ValueError("Weight shape must match input shape")
 
         # Calculate the squared differences
-        diff = input - target
-        squared_diff = diff ** 2
+        diff = torch.sub(input, target)
+        squared_diff = torch.square(diff)
         
         # Apply weights
-        weighted_squared_diff = weight * squared_diff
+        weighted_squared_diff = torch.mul(weight, squared_diff)
         
         # Return the mean of the weighted squared differences
-        loss = weighted_squared_diff.sum()
+        loss = torch.sum(weighted_squared_diff)
         return loss
