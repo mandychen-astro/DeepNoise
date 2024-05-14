@@ -30,7 +30,7 @@ def replace_outliers(data, lower=3, upper=10, fill_value_lower='median',
     Replaces the lower outliers in the data with the fill value.
     Args:
     - data (numpy.ndarray): Input data array.
-    - lower (float): Lower sigma cutoff below 0.
+    - lower (float): Lower sigma cutoff below median.
     - upper (float): upper sigma cutoff above mean.
     - fill_value_lower (float or string): Value to replace the lower outliers with.
     - fill_value_upper (float or string): Value to replace the lower outliers with.
@@ -42,7 +42,7 @@ def replace_outliers(data, lower=3, upper=10, fill_value_lower='median',
 
     for i in range(nz):
         wave_slice = data[i, :]
-        bad_pix = wave_slice < (0 - lower*np.nanstd(wave_slice))
+        bad_pix = wave_slice < (np.nanmedian(wave_slice) - lower*np.nanstd(wave_slice))
         if fill_value_lower == 'median':
             data[i, bad_pix] = np.nanmedian(wave_slice)
         else: 
