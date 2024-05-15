@@ -31,14 +31,16 @@ def train_model(model, train_loader, criterion, optimizer, val_loader=None, num_
         running_loss = 0.0
 
         for data in train_loader:
-            inputs = data.to(device)
+            inputs, targets = data
+            inputs = inputs.to(device)
+            targets = targets.to(device)
 
             # Zero the parameter gradients
             optimizer.zero_grad()
 
             # Forward pass
             outputs = model(inputs)
-            loss = criterion(outputs, inputs)
+            loss = criterion(outputs, targets)
 
             # Backward pass and optimize
             loss.backward()
@@ -54,9 +56,11 @@ def train_model(model, train_loader, criterion, optimizer, val_loader=None, num_
             val_running_loss = 0.0
             with torch.no_grad():
                 for data in val_loader:
-                    inputs = data.to(device)
+                    inputs, targets = data
+                    inputs = inputs.to(device)
+                    targets = targets.to(device)
                     outputs = model(inputs)
-                    loss = criterion(outputs, inputs)
+                    loss = criterion(outputs, targets)
                     val_running_loss += loss.item()
             
             val_running_loss /= len(val_loader)

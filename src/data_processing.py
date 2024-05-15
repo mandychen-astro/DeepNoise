@@ -204,15 +204,17 @@ class CustomDataset(torch.utils.data.Dataset):
     """
     Custom dataset class for PyTorch.
     """
-    def __init__(self, input_data):
+    def __init__(self, input_data, target_data):
         self.input_data = input_data
+        self.target_data = target_data
 
     def __len__(self):
         return len(self.input_data)
 
     def __getitem__(self, idx):
         x = self.input_data[idx]
-        return x
+        y = self.target_data[idx]
+        return x, y
 
 
 

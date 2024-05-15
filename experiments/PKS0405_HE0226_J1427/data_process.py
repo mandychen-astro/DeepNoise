@@ -21,7 +21,8 @@ def get_train_and_val(mask, cube, train_split=0.8):
     # could also mask nan with data = np.nan_to_num(data) if needed
     sky_spec = apply_mask(data, mask, extract_value=0)
     sky_spec = np.arcsinh(sky_spec) # arcsinh transform
-    sky_spec_sigclipped = replace_outliers(sky_spec, lower=3, upper=10, 
+    sky_spec_sigclipped = sky_spec.copy()
+    sky_spec_sigclipped = replace_outliers(sky_spec_sigclipped, lower=3, upper=10, 
                         fill_value_lower='median', fill_value_upper='median')
 
     # Generate random indices for splitting the data
