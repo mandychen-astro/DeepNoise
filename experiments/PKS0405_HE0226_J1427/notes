@@ -19,4 +19,4 @@ Training:
     - Adam optimizer with lr=0.001
 
 Results:
-    - Works ok, but residual still worse than MUSE pipeline result, and also worse than previous exp. with data from only PKS0405-123_OB1EXP1
+    - v1: Works ok, but residual still worse than MUSE pipeline result, and also worse than previous exp. with data from only PKS0405-123_OB1EXP1
