@@ -19,10 +19,10 @@ print(torch.cuda.device_count())
 print(torch.cuda.get_device_name())
 
 # Load the data
-train_tensor = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_train.pt')
-val_tensor = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_val.pt')
-train_tensor_clipped = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_train_clipped.pt')
-val_tensor_clipped = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_val_clipped.pt')
+train_tensor = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_train_v2.pt')
+val_tensor = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_val_v2.pt')
+train_tensor_clipped = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_train_clipped_v2.pt')
+val_tensor_clipped = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_val_clipped_v2.pt')
 print(train_tensor.size())
 print(val_tensor.size())
 
@@ -51,6 +51,6 @@ trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loade
                 return_train_loss=True, return_val_loss=True,
                 num_epochs=10, device='cuda')
 
-torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict.pth')
-np.savetxt('../../models/model_PKS0405_HE0226_J1427_train_loss.txt', train_loss)
-np.savetxt('../../models/model_PKS0405_HE0226_J1427_val_loss.txt', val_loss)
+torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict_v2.pth')
+np.savetxt('../../models/model_PKS0405_HE0226_J1427_train_loss_v2.txt', train_loss)
+np.savetxt('../../models/model_PKS0405_HE0226_J1427_val_loss_v2.txt', val_loss)
