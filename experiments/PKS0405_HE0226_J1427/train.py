@@ -37,7 +37,7 @@ autoencoder = SpectrumTransformer(num_specpixels, embedding_dim)
 criterion = nn.MSELoss()  
 
 # Choose an optimizer
-optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.01)#, weight_decay=1e-3)
+optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.0001)#, weight_decay=1e-3)
 
 # Load your data
 train_data = CustomDataset(train_tensor, train_tensor_clipped)
@@ -51,6 +51,6 @@ trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loade
                 return_train_loss=True, return_val_loss=True,
                 num_epochs=20, device='cuda')
 
-torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict_v4.pth')
-np.savetxt('../../models/model_PKS0405_HE0226_J1427_train_loss_v4.txt', train_loss)
-np.savetxt('../../models/model_PKS0405_HE0226_J1427_val_loss_v4.txt', val_loss)
+torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict_v5.pth')
+np.savetxt('../../models/model_PKS0405_HE0226_J1427_train_loss_v5.txt', train_loss)
+np.savetxt('../../models/model_PKS0405_HE0226_J1427_val_loss_v5.txt', val_loss)

@@ -24,4 +24,4 @@ Results:
     - v1: Works ok, but residual still worse than MUSE pipeline result, and also worse than previous exp. with data from only PKS0405-123_OB1EXP1
     - v2: basically the same as v1, rescaling the values to be approximately between 0 and 1 did not help
     - v3: results improved!  Yay!  Rescaling the data linearly to be between 0 and 1 helped.  The residual is still worse than the MUSE pipeline result tho.
-    - v4:
+    - v4: increased learning rate to 0.01, results are worse than v3. So, try decreasing learning rate to 0.0001 and see if that helps.
