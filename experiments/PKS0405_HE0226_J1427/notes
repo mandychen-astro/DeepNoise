@@ -7,6 +7,7 @@ Dataset:
         - Rescaled data v2: rescaled_data = arcsinh(data), then clipped 3-sig outliers in both directions, 
                             then rescale_data_w_prior_bounds(data, log=False, input_min=3, input_max=10), put 3 at 0 and 10 at 1
         - Rescaled data v3: rescaled_data = data/3000, then clipped 3-sig outliers in the lower direction 
+        - Rescaled data v4: same as v3.
 
 Model:
     - Transformer autoencoder, see screenshot "model.png"
@@ -17,8 +18,10 @@ Loss:
 Training:
     - 10 epochs
     - batch size 64
-    - Adam optimizer with lr=0.001
+    - Adam optimizer with lr=0.001 for v1-v3, lr=0.01 for v4
 
 Results:
     - v1: Works ok, but residual still worse than MUSE pipeline result, and also worse than previous exp. with data from only PKS0405-123_OB1EXP1
     - v2: basically the same as v1, rescaling the values to be approximately between 0 and 1 did not help
+    - v3: results improved!  Yay!  Rescaling the data linearly to be between 0 and 1 helped.  The residual is still worse than the MUSE pipeline result tho.
+    - v4:
