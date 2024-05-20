@@ -7,13 +7,13 @@ Dataset:
         - Rescaled data v2: rescaled_data = arcsinh(data), then clipped 3-sig outliers in both directions, 
                             then rescale_data_w_prior_bounds(data, log=False, input_min=3, input_max=10), put 3 at 0 and 10 at 1
         - Rescaled data v3: rescaled_data = data/3000, then clipped 3-sig outliers in the lower direction 
-        - Rescaled data v4: same as v3.
+
 
 Model:
-    - Transformer autoencoder, see screenshot "model.png"
+    - v1--v6: Transformer autoencoder, see screenshot "model.png"
 
 Loss:
-    - MSE
+    - v1--v6: MSE
 
 Training:
     - 10 epochs
@@ -25,3 +25,5 @@ Results:
     - v2: basically the same as v1, rescaling the values to be approximately between 0 and 1 did not help
     - v3: results improved!  Yay!  Rescaling the data linearly to be between 0 and 1 helped.  The residual is still worse than the MUSE pipeline result tho.
     - v4: increased learning rate to 0.01, results are worse than v3. So, try decreasing learning rate to 0.0001 and see if that helps.
+    - v5: decreased learning rate to 0.0001, there is less overfitting, and residual is comparable to v3.
+    - v6: implemented learning rate scheduler, torch.optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.5)

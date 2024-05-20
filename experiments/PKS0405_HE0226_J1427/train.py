@@ -38,6 +38,7 @@ criterion = nn.MSELoss()
 
 # Choose an optimizer
 optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.0001)#, weight_decay=1e-3)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.5)
 
 # Load your data
 train_data = CustomDataset(train_tensor, train_tensor_clipped)
@@ -48,9 +49,9 @@ val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 # Train the model
 trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loader=train_loader, 
                 criterion=criterion, optimizer=optimizer, val_loader=val_loader,
-                return_train_loss=True, return_val_loss=True,
+                return_train_loss=True, return_val_loss=True, scheduler=scheduler,
                 num_epochs=20, device='cuda')
 
-torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict_v5.pth')
-np.savetxt('../../models/model_PKS0405_HE0226_J1427_train_loss_v5.txt', train_loss)
-np.savetxt('../../models/model_PKS0405_HE0226_J1427_val_loss_v5.txt', val_loss)
+torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict_v6.pth')
+np.savetxt('../../models/model_PKS0405_HE0226_J1427_train_loss_v6.txt', train_loss)
+np.savetxt('../../models/model_PKS0405_HE0226_J1427_val_loss_v6.txt', val_loss)

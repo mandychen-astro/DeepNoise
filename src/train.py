@@ -3,7 +3,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 
 def train_model(model, train_loader, criterion, optimizer, val_loader=None, num_epochs=10, 
-                return_train_loss=False, return_val_loss=False,
+                return_train_loss=False, return_val_loss=False, scheduler=None,
                 device='cuda'):
     """
     Trains a PyTorch neural network model.
@@ -69,6 +69,11 @@ def train_model(model, train_loader, criterion, optimizer, val_loader=None, num_
 
         else:
             print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}")
+
+        if scheduler is not None:
+            scheduler.step()
+            print(f"Epoch {epoch+1}/{num_epochs}, Current Learning Rate: {scheduler.get_last_lr()[0]}")
+
     
     if return_train_loss and return_val_loss:
         return model, train_loss, val_loss
