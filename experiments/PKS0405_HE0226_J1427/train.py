@@ -3,6 +3,7 @@ import os
 
 home_directory = os.path.expanduser('~')
 sys.path.append(home_directory + '/DeepNoise/')
+data_path = '/project/hwchen/data_mandy/'
 
 import torch
 from torch import nn
@@ -19,10 +20,10 @@ print(torch.cuda.device_count())
 print(torch.cuda.get_device_name())
 
 # Load the data
-train_tensor = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_train_v3.pt')
-val_tensor = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_val_v3.pt')
-train_tensor_clipped = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_train_clipped_v3.pt')
-val_tensor_clipped = torch.load('../../data/PKS0405_HE0226_J1427_input_tensor_val_clipped_v3.pt')
+train_tensor = torch.load(data_path + 'PKS0405_HE0226_J1427_input_tensor_train_v3.pt')
+val_tensor = torch.load(data_path + 'PKS0405_HE0226_J1427_input_tensor_val_v3.pt')
+train_tensor_clipped = torch.load(data_path + 'PKS0405_HE0226_J1427_input_tensor_train_clipped_v3.pt')
+val_tensor_clipped = torch.load(data_path + 'PKS0405_HE0226_J1427_input_tensor_val_clipped_v3.pt')
 print(train_tensor.size())
 print(val_tensor.size())
 
@@ -38,7 +39,7 @@ criterion = nn.MSELoss()
 
 # Choose an optimizer
 optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.0001)#, weight_decay=1e-3)
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.5)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
 
 # Load your data
 train_data = CustomDataset(train_tensor, train_tensor_clipped)

@@ -3,6 +3,7 @@ import os
 
 home_directory = os.path.expanduser('~')
 sys.path.append(home_directory + '/DeepNoise/')
+data_path = '/project/hwchen/data_mandy/'
 
 from astropy.io import fits
 from mpdaf.obj import Cube
@@ -93,12 +94,12 @@ input_tensor_val_clipped = array_to_tensor(sky_spec_val_sigclipped)
 print(input_tensor_train.size())
 print(input_tensor_val.size())
 
-torch.save(input_tensor_train, '../../data/PKS0405_HE0226_J1427_input_tensor_train_v4.pt')
-torch.save(input_tensor_val, '../../data/PKS0405_HE0226_J1427_input_tensor_val_v4.pt')
-torch.save(input_tensor_train_clipped, '../../data/PKS0405_HE0226_J1427_input_tensor_train_clipped_v4.pt')
-torch.save(input_tensor_val_clipped, '../../data/PKS0405_HE0226_J1427_input_tensor_val_clipped_v4.pt')
+torch.save(input_tensor_train, data_path + 'PKS0405_HE0226_J1427_input_tensor_train_v4.pt')
+torch.save(input_tensor_val, data_path + 'PKS0405_HE0226_J1427_input_tensor_val_v4.pt')
+torch.save(input_tensor_train_clipped, data_path + 'PKS0405_HE0226_J1427_input_tensor_train_clipped_v4.pt')
+torch.save(input_tensor_val_clipped, data_path + 'PKS0405_HE0226_J1427_input_tensor_val_clipped_v4.pt')
 
-np.savetxt('../../data/PKS0405_HE0226_J1427_train_test_v4.txt', train_test)
-np.savetxt('../../data/PKS0405_HE0226_J1427_val_test_v4.txt', val_test)
-np.savetxt('../../data/PKS0405_HE0226_J1427_train_test_clipped_v4.txt', train_test_clipped)
-np.savetxt('../../data/PKS0405_HE0226_J1427_val_test_clipped_v4.txt', val_test_clipped)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_train_test_v4.txt', train_test)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_val_test_v4.txt', val_test)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_train_test_clipped_v4.txt', train_test_clipped)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_val_test_clipped_v4.txt', val_test_clipped)

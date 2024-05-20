@@ -16,7 +16,7 @@ Loss:
     - v1--v6: MSE
 
 Training:
-    - 10 epochs
+    - 20 epochs
     - batch size 64
     - Adam optimizer with lr=0.001 for v1-v3, lr=0.01 for v4
 

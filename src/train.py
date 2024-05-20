@@ -71,8 +71,8 @@ def train_model(model, train_loader, criterion, optimizer, val_loader=None, num_
             print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}")
 
         if scheduler is not None:
-            scheduler.step()
             print(f"Epoch {epoch+1}/{num_epochs}, Current Learning Rate: {scheduler.get_last_lr()[0]}")
+            scheduler.step()
 
     
     if return_train_loss and return_val_loss:
