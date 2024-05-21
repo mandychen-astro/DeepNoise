@@ -8,7 +8,7 @@ Dataset:
                             then rescale_data_w_prior_bounds(data, log=False, input_min=3, input_max=10), put 3 at 0 and 10 at 1
         - Rescaled data v3: rescaled_data = data/3000, then clipped 3-sig outliers in the lower direction 
         - Rescaled data v4: rescaled_data = data**3/3000**3, then clipped 3-sig outliers in the lower direction 
-
+        - Rescaled data v5: rescaled_data = data * 10, if data > 50; rescaled_data = data, if data <= 50. Then clipped 3-sig outliers in the lower direction 
 
 Model:
     - v1--v7: Transformer autoencoder, see screenshot "model.png"
@@ -19,7 +19,7 @@ Loss:
 Training:
     - 20-30 epochs
     - batch size 64
-    - Adam optimizer with lr=0.001 for v1-v3, lr=0.01 for v4, lr=0.0001 for v5, learning rate decay for v6
+    - Adam optimizer with lr=0.001 for v1-v3, lr=0.01 for v4, lr=0.0001 for v5, learning rate decay for v6, lr=0.0001 w/o decay for v7,
 
 Results:
     - v1: (used data v1) Works ok, but residual still worse than MUSE pipeline result, and also worse than previous exp. with data from only PKS0405-123_OB1EXP1
@@ -28,4 +28,5 @@ Results:
     - v4: (used data v3) increased learning rate to 0.01, results are worse than v3. So, try decreasing learning rate to 0.0001 and see if that helps.
     - v5: (used data v3) decreased learning rate to 0.0001, there is less overfitting, and residual is comparable to v3.
     - v6: (used data v3) implemented learning rate scheduler, torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5); Model was still learning by end of epoch 20, so could have trained a little longer perhaps, but the results are not significantly different from v5 so far
-    - v7: (used data v4) rescaled data by taking the cube of the data and got rid of lr scheduler   
+    - v7: (used data v4) rescaled data by taking the cube of the data and got rid of lr scheduler; Suppression of lower values too aggressive, loss isn’t sensitive to these values anymore; need to find a scaling scheme more in between
+    - v8: (used data v5) 

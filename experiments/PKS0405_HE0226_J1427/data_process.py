@@ -22,7 +22,10 @@ def get_train_and_val(mask, cube, train_split=0.8):
     # could also mask nan with data = np.nan_to_num(data) if needed
     sky_spec = apply_mask(data, mask, extract_value=0)
     # sky_spec = np.arcsinh(sky_spec) # arcsinh transform
-    sky_spec = sky_spec**3 / 3000**3 # cube transform to put more weight on sky lines
+    # sky_spec = sky_spec**3 / 3000**3 # cube transform to put more weight on sky lines
+    high_value_mask = sky_spec > 50
+    sky_spec[high_value_mask] = sky_spec[high_value_mask]*10 # enhance the high values
+    sky_spec = sky_spec / 30000 # normalize the data
     sky_spec_sigclipped = sky_spec.copy()
     sky_spec_sigclipped = replace_outliers(sky_spec_sigclipped, lower=3, upper=10, 
                         fill_value_lower='median', fill_value_upper='median')
@@ -94,12 +97,12 @@ input_tensor_val_clipped = array_to_tensor(sky_spec_val_sigclipped)
 print(input_tensor_train.size())
 print(input_tensor_val.size())
 
-torch.save(input_tensor_train, data_path + 'PKS0405_HE0226_J1427_input_tensor_train_v4.pt')
-torch.save(input_tensor_val, data_path + 'PKS0405_HE0226_J1427_input_tensor_val_v4.pt')
-torch.save(input_tensor_train_clipped, data_path + 'PKS0405_HE0226_J1427_input_tensor_train_clipped_v4.pt')
-torch.save(input_tensor_val_clipped, data_path + 'PKS0405_HE0226_J1427_input_tensor_val_clipped_v4.pt')
+torch.save(input_tensor_train, data_path + 'PKS0405_HE0226_J1427_input_tensor_train_v5.pt')
+torch.save(input_tensor_val, data_path + 'PKS0405_HE0226_J1427_input_tensor_val_v5.pt')
+torch.save(input_tensor_train_clipped, data_path + 'PKS0405_HE0226_J1427_input_tensor_train_clipped_v5.pt')
+torch.save(input_tensor_val_clipped, data_path + 'PKS0405_HE0226_J1427_input_tensor_val_clipped_v5.pt')
 
-np.savetxt(data_path + 'PKS0405_HE0226_J1427_train_test_v4.txt', train_test)
-np.savetxt(data_path + 'PKS0405_HE0226_J1427_val_test_v4.txt', val_test)
-np.savetxt(data_path + 'PKS0405_HE0226_J1427_train_test_clipped_v4.txt', train_test_clipped)
-np.savetxt(data_path + 'PKS0405_HE0226_J1427_val_test_clipped_v4.txt', val_test_clipped)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_train_test_v5.txt', train_test)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_val_test_v5.txt', val_test)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_train_test_clipped_v5.txt', train_test_clipped)
+np.savetxt(data_path + 'PKS0405_HE0226_J1427_val_test_clipped_v5.txt', val_test_clipped)
