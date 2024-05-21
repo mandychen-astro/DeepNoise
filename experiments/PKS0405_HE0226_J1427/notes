@@ -28,3 +28,4 @@ Results:
     - v4: (used data v3) increased learning rate to 0.01, results are worse than v3. So, try decreasing learning rate to 0.0001 and see if that helps.
     - v5: (used data v3) decreased learning rate to 0.0001, there is less overfitting, and residual is comparable to v3.
     - v6: (used data v3) implemented learning rate scheduler, torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5); Model was still learning by end of epoch 20, so could have trained a little longer perhaps, but the results are not significantly different from v5 so far
+    - v7: (used data v4) rescaled data by taking the cube of the data and got rid of lr scheduler   

@@ -39,7 +39,7 @@ criterion = nn.MSELoss()
 
 # Choose an optimizer
 optimizer = torch.optim.Adam(autoencoder.parameters(), lr=0.0001)#, weight_decay=1e-3)
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
+# scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
 
 # Load your data
 train_data = CustomDataset(train_tensor, train_tensor_clipped)
@@ -50,7 +50,7 @@ val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 # Train the model
 trained_model, train_loss, val_loss = train_model(model=autoencoder, train_loader=train_loader, 
                 criterion=criterion, optimizer=optimizer, val_loader=val_loader,
-                return_train_loss=True, return_val_loss=True, scheduler=scheduler,
+                return_train_loss=True, return_val_loss=True, 
                 num_epochs=30, device='cuda')
 
 torch.save(autoencoder.state_dict(), '../../models/model_PKS0405_HE0226_J1427_state_dict_v7.pth')
