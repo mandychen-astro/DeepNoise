@@ -29,4 +29,10 @@ Results:
     - v5: (used data v3) decreased learning rate to 0.0001, there is less overfitting, and residual is comparable to v3.
     - v6: (used data v3) implemented learning rate scheduler, torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5); Model was still learning by end of epoch 20, so could have trained a little longer perhaps, but the results are not significantly different from v5 so far
     - v7: (used data v4) rescaled data by taking the cube of the data and got rid of lr scheduler; Suppression of lower values too aggressive, loss isn’t sensitive to these values anymore; need to find a scaling scheme more in between
-    - v8: (used data v5) 
+    - v8: (used data v5) rescaled data by *10 for values > 50 (roughly 80th percentile), and left the rest as is; loss is more sensitive to lower values again, but still not as much as v3; residual is comparable to v3 for high values, but worse for lower values
+
+
+Next steps:
+    - Seems like having a linear rescaling of the data is the best approach so far
+    - Increasing weights for higher values (v4 and v5) doesn't seem to help much
+    - Next will try different architectures, maybe replacing the first FC layer with a convolutional layer
