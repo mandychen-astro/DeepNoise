@@ -73,7 +73,7 @@ class SpectrumTransformerEncoder(nn.Module):
         self.transformer_encoder = nn.TransformerEncoder(
             nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=4, dim_feedforward=1024,
             dropout=0.2),
-            num_layers=4
+            num_layers=1
         )
 
     def forward(self, x):
@@ -98,7 +98,7 @@ class SpectrumTransformerDecoder(nn.Module):
         self.transformer_decoder = nn.TransformerDecoder(
             nn.TransformerDecoderLayer(d_model=embedding_dim, nhead=4, dim_feedforward=1024,
             dropout=0.2),
-            num_layers=4
+            num_layers=1
         )
 
         # Final layer to transform back to spectrum dimensionality
