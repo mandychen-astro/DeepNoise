@@ -8,7 +8,8 @@ Dataset:
                             then rescale_data_w_prior_bounds(data, log=False, input_min=3, input_max=10), put 3 at 0 and 10 at 1
         - Rescaled data v3: rescaled_data = data/3000, then clipped 3-sig outliers in the lower direction 
         - Rescaled data v4: rescaled_data = data**3/3000**3, then clipped 3-sig outliers in the lower direction 
-        - Rescaled data v5: rescaled_data = data * 10, if data > 50; rescaled_data = data, if data <= 50. Then clipped 3-sig outliers in the lower direction 
+        - Rescaled data v5: rescaled_data = data * 10, if data > 50; rescaled_data = data, if data <= 50. Then clipped 3-sig outliers in the lower direction
+        - Rescaled data v6: same as v3, but resampled to a common wavelength grid, wave_grid = np.arange(4765, 9336, 1.25) 
 
 Model:
     - v1--v7: Transformer autoencoder, see screenshot "model.png"
@@ -29,4 +30,11 @@ Results:
     - v5: (used data v3) decreased learning rate to 0.0001, there is less overfitting, and residual is comparable to v3.
     - v6: (used data v3) implemented learning rate scheduler, torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5); Model was still learning by end of epoch 20, so could have trained a little longer perhaps, but the results are not significantly different from v5 so far
     - v7: (used data v4) rescaled data by taking the cube of the data and got rid of lr scheduler; Suppression of lower values too aggressive, loss isn’t sensitive to these values anymore; need to find a scaling scheme more in between
-    - v8: (used data v5) 
+    - v8: (used data v5) rescaled data by *10 for values > 50 (roughly 80th percentile), and left the rest as is; loss is more sensitive to lower values again, but still not as much as v3; residual is comparable to v3 for high values, but worse for lower values
+    - v9: (used data v6) used setting of model v5, lr 0.0001, no lr scheduler. 
+
+
+Next steps:
+    - Seems like having a linear rescaling of the data is the best approach so far
+    - Increasing weights for higher values (v4 and v5) doesn't seem to help much
+    - Next will try different architectures, maybe replacing the first FC layer with a convolutional layer
